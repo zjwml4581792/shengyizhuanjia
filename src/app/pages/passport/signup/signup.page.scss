@@ -1,0 +1,30 @@
+hr {
+    height: 1.5px;
+    border: none;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.logo {
+    margin-top: 10px;
+    width: 33%;
+}
+
+p{
+    font-size: small;
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill:  #EC6941;
+    overflow: hidden;
+}
+
+.phone-icon{
+    --ionicon-stroke-width: 16px;
+    color: #EC6941;
+}

@@ -33,5 +33,7 @@ export class WelcomePage implements OnInit {
       this.showSkip = !end;
     });
   }
-
+  onSkip(){
+    this.router.navigateByUrl('/passport/signup');
+  }
 }

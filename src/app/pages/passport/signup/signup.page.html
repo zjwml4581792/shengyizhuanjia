@@ -1,0 +1,178 @@
+<ion-header>
+  <ion-toolbar>
+    <!-- <ion-title>signup</ion-title> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-text-center">
+    <img class="logo" src="./assets/img/logo.png" alt="">
+  </div>
+  <!-- 图片之间添加水平线 -->
+  <ion-col class="ion-align-self-center">
+    <hr>
+  </ion-col>
+  <!-- 注册步骤网格 -->
+  <ion-grid fixed class="processbar">
+    <ion-row>
+      <ion-col>
+        <img src="./assets/img/registered_one.png" alt="" *ngIf="isNegative(0)">
+        <img src="./assets/img/registered_one_one.png" alt="" *ngIf="isPositive(0)">
+      </ion-col>
+      <ion-col></ion-col>
+      <ion-col>
+        <img src="./assets/img/registered_two.png" alt="" *ngIf="isNegative(1)">
+        <img src="./assets/img/registered_two_two.png" alt="" *ngIf="isPositive(1)">
+      </ion-col>
+      <ion-col></ion-col>
+      <ion-col>
+        <img src="./assets/img/registered_three.png" alt="" *ngIf="isNegative(2)">
+        <img src="./assets/img/registered_three_three.png" alt="" *ngIf="isPositive(2)">
+      </ion-col>
+      <ion-col></ion-col>
+      <ion-col>
+        <img src="./assets/img/register_four.png" alt="" *ngIf="isNegative(3)">
+        <img src="./assets/img/register_four_four.png" alt="" *ngIf="isPositive(3)">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-col class="ion-align-self-center">
+    <hr>
+  </ion-col>
+
+  <ion-slides #signupSlides (ionSlidesDidLoad)="onSlidesDidLoad($event)" (ionSlideDidChange)="onSlidesDidChange($event)">
+    <ion-slide>
+      <form #phoneForm="ngForm" (ngSubmit)="onPhoneSubmit(phoneForm)">
+        <ion-list>
+
+          <ion-item>
+            <ion-icon name="phone-portrait-outline" class="phone-icon" ></ion-icon>
+            <ion-input name="phone" type="number" placeholder="请输入您的手机号码" required
+              pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$" [(ngModel)]="signup.phone"
+              #phone="ngModel">
+            </ion-input>
+          </ion-item>
+
+          <ion-text class="ion-text-left" color="danger" *ngIf="phone.invalid && phone.touched">
+            <p [hidden]="!phone.errors?.required">请输入手机号码</p>
+            <p [hidden]="!phone.errors?.pattern">您输入的手机号格式不正确</p>
+          </ion-text>
+
+          <ion-text class="ion-text-left" color="danger" *ngIf="isRepetitivePhone">
+            <p >该手机号已被注册</p>
+          </ion-text>
+        </ion-list>
+        <div class="ion-padding-horizontal">
+          <ion-button type="submit" expand="full" color="base" [disabled]="phoneForm.invalid">下一步
+          </ion-button>
+        </div>
+      </form>
+    </ion-slide>
+
+    <ion-slide>
+      <form #codeForm="ngForm" (ngSubmit)="onValidateCode(codeForm)">
+        <ion-list>
+          <ion-item>
+            <ion-input name="checkCode"slot="start" maxlength="4" required placeholder="请输入验证码" [(ngModel)]="inputCode" #checkCode="ngModel"></ion-input>
+            <ion-button color="assist" expand="block" slot="end" [disabled]="!verifyCode.disable" (click)="onSendSMS()" class="full-width">{{verifyCode.verifyCodeTips}}</ion-button>
+          </ion-item>
+
+          <ion-text class="ion-text-left" color="danger" *ngIf="verifyCode.fail && checkCode.touched">
+            <p>验证码错误</p>
+          </ion-text>
+        </ion-list>
+        <div class="ion-padding-horizontal">
+          <ion-button type="submit" expand="full" color="base" [disabled]="codeForm.invalid">下一步</ion-button>
+        </div>
+      </form>
+    </ion-slide>
+
+    <ion-slide>
+      <form #userForm="ngForm" (ngSubmit)="onPhoneSubmit(phoneForm)">
+        <ion-list >
+
+          <ion-item>
+            <ion-label>
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-dianpu"></use>
+              </svg>
+            </ion-label>
+            <ion-input name="shopName" type="text" placeholder="请输入您的店铺名称" inputmode="text" maxLength = "8" required [(ngModel)]="signup.shopName" #shopName="ngModel">
+            </ion-input>
+          </ion-item>
+          <ion-text class="ion-text-left" color="danger" *ngIf="shopName.invalid && shopName.touched">
+            <p [hidden]="!shopName.errors?.required">请输入店铺名称</p>
+          </ion-text>
+
+
+          <ion-item>
+            <ion-label>
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-youxiang"></use>
+              </svg>
+            </ion-label>
+            <ion-input name="email" type="email" placeholder="请输入您的邮箱" inputmode="email" required
+              pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$" [(ngModel)]="signup.email" #email="ngModel">
+            </ion-input>
+          </ion-item>
+          <ion-text class="ion-text-left" color="danger" *ngIf="email.invalid && email.touched">
+            <p [hidden]="!email.errors?.required">请输入邮箱</p>
+            <p [hidden]="!email.errors?.pattern">您输入的邮箱格式不正确</p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label>
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-mima"></use>
+              </svg>
+            </ion-label>
+            <ion-input name="passwd" type="password" placeholder="请输入密码" required autocomplete="new-password"
+              clearInput="true" maxlength="16" minlength="6"
+              pattern="^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z\\W]{6,16}$" [(ngModel)]="signup.password"
+              #passwd="ngModel">
+            </ion-input>
+          </ion-item>
+          <ion-text class="ion-text-left" color="danger" *ngIf="passwd.invalid && passwd.touched">
+            <p [hidden]="!passwd.errors?.required">请输入密码</p>
+            <p [hidden]="!passwd.errors?.pattern">您输入的密码过于简单</p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label>
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-mima"></use>
+              </svg>
+            </ion-label>
+            <ion-input name="confirmPassword" type="password" placeholder="请再次输入密码" required
+              autocomplete="current-password" autocorrect="on" clear-input="true" maxlength="16" minlength="6" [(ngModel)]="signup.confirmPassword" #confirmPassword="ngModel">
+            </ion-input>
+          </ion-item>
+          <ion-text class="ion-text-left" color="danger" *ngIf="confirmPassword.invalid && confirmPassword.touched">
+            <p [hidden]="!confirmPassword.errors?.required">请再次输入密码</p>
+          </ion-text>
+          <ion-text class="ion-text-left" color="danger" *ngIf="confirmPassword.dirty && !passwordIsSame">
+            <p>两次输入密码不相同</p>
+          </ion-text>
+
+        </ion-list>
+        <div class="ion-padding-horizontal">
+          <ion-button type="submit" expand="full" color="base" [disabled]="userForm.invalid" (click)="onRegister()">注册
+          </ion-button>
+        </div>
+      </form>
+    </ion-slide>
+
+
+    <ion-slide>
+      <ion-list >
+        <ion-item>
+          <h1>注册成功</h1>
+        </ion-item>
+        <div padding-horizontal class="full-width">
+          <ion-button expand="full" color="base" (click)="onLogin()">登陆</ion-button>
+      </div>
+      </ion-list>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
