@@ -2,7 +2,7 @@
  * @Author: ZengJun
  * @Date: 2020-11-15 16:05:05
  * @LastEditors: ZengJun
- * @LastEditTime: 2020-11-29 20:17:28
+ * @LastEditTime: 2020-11-30 00:11:04
  * @Description: 
  */
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
@@ -51,7 +51,6 @@ export class ProductAddPage implements OnInit, OnDestroy {
     this.product.supplier.name = '输入商品供应商';
     
     this.subscription = categoryService.watchCategory().subscribe((activeCategory) => {
-      console.log(activeCategory);
       this.product.categoryName = activeCategory.name;
       this.product.categoryId = activeCategory.id;
     },
@@ -86,9 +85,10 @@ export class ProductAddPage implements OnInit, OnDestroy {
         if (ct) {
           this.product = this.initProduct();
           this.product.categoryName = '默认分类';
+          this.product.supplier = new Supply();
           this.product.supplier.name = '输入商品供应商';
         } else {
-          this.router.navigateByUrl('/product/list');
+          this.router.navigateByUrl('/home');
         }
       } else {
         const alert = await this.alertController.create({
@@ -109,14 +109,14 @@ export class ProductAddPage implements OnInit, OnDestroy {
     const actionSheet = await this.actionSheetController.create({
       header: '选择您的操作',
       buttons: [
-        // {
-        //   text: '拍照',
-        //   role: 'destructive',
-        //   handler: () => {
-        //     console.log('进入相机');
-        //     this.onCamera();
-        //   }
-        // }, 
+        {
+          text: '拍照',
+          role: 'destructive',
+          handler: () => {
+            console.log('进入相机');
+            this.onCamera();
+          }
+        }, 
         {
             text: '相册',
               handler: () => {
@@ -170,8 +170,8 @@ export class ProductAddPage implements OnInit, OnDestroy {
    * 转跳到商品类别界面
    */
   gotoCategyList() {
-    this.navController.navigateForward('/product/categoryList');
-    // this.router.navigateByUrl('/product/categoryList');
+    // this.navController.navigateForward('/product/categoryList');
+    this.router.navigateByUrl('/product/categoryList');
   }
 
   /**

@@ -21,26 +21,23 @@ export class CategoryListPage implements OnInit {
   subscription: Subscription;
 
 
-  constructor(private categoryService: CategoryService, private actionSheetController: ActionSheetController,
-              private router: Router,private navController:NavController,private location:Location) {
+  constructor(
+    private categoryService: CategoryService,
+    private actionSheetController: ActionSheetController,
+    private router: Router,
+    private navController:NavController,
+    private location:Location) {
 
-      categoryService.getAll().then((data) => {
-          this.categories = data.data;
-          if (this.categories) {
-              this.activeCategory = this.categories[0];  //默认当前被选中的是第一个类别
-              this.subCategories = this.activeCategory.children;
-          }
-          this.subCategories_num = this.subCategories.length
-      });
-
-      // this.subscription = categoryService.watchCategory().subscribe((activeCategory) => {
-      //   categoryService.setActiveCategory(activeCategory);
-      // },
-      //   (error) => {
-  
-      //   }
-      // );
+    categoryService.getAll().then((data) => {
+        this.categories = data.data;
+        if (this.categories) {
+            this.activeCategory = this.categories[0];  //默认当前被选中的是第一个类别
+            this.subCategories = this.activeCategory.children;
+        }
+        this.subCategories_num = this.subCategories.length
+    });
   }
+  
   ionViewWillEnter() {
       this.categoryService.getAll().then((data) => {
         this.categories = data.data;
@@ -113,6 +110,7 @@ export class CategoryListPage implements OnInit {
    */
   onSelectSubCategory(category: Category) {
     this.categoryService.setActiveCategory(category);
+    console.log('选择了小分类',category);
     this.location.back();
   }
 

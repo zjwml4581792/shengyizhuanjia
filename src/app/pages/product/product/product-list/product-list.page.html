@@ -2,7 +2,7 @@
  * @Author: ZengJun
  * @Date: 2020-11-22 14:31:28
  * @LastEditors: ZengJun
- * @LastEditTime: 2020-11-29 18:38:29
+ * @LastEditTime: 2020-11-30 00:15:20
  * @Description: 
 -->
 <ion-header>
@@ -24,6 +24,16 @@
 </ion-header>
 
 <ion-content>
+  <ion-toolbar>
+    <ion-searchbar placeholder="请输入商品名称、拼音、数字"
+                   [(ngModel)]="queryTerm"
+                   (ionInput)="onInput($event)">
+    </ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" color="base" size="small">商品盘点</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  
   <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
     <ion-refresher-content
             pullingText="下拉可以刷新"
@@ -32,19 +42,18 @@
     </ion-refresher-content>
   </ion-refresher>
   
-  <ion-toolbar color="light">
-    <ion-searchbar placeholder="请输入商品名称、拼音、数字"
-                   [(ngModel)]="queryTerm"
-                   (ionInput)="onInput($event)" >
-    </ion-searchbar>
-    <ion-buttons slot="end">
-      <ion-button fill="outline" color="syzj" size="small">商品盘点</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-
   
+  <div class="ion-text-center" *ngIf="noData()">
+    <img class="logo" src="./assets/img/commodity_no.png" alt="" >
+    <ion-label color="medium">您还没有任何商品信息</ion-label>
+    <br>
+    <br>
+    <ion-label color="medium">您可以</ion-label>
+    <div>
+      <ion-button class="btn-add-goods" expand="block" color="base" fill="solid" (click)="onClick()">添加商品</ion-button>
+    </div>
+  </div>
   
-
   <ion-infinite-scroll threshold="100px" (ionInfinite)="onInfinite($event)">
     <ion-infinite-scroll-content
             loadingSpinner="bubbles"

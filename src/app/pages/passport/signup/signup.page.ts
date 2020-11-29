@@ -1,14 +1,14 @@
 /*
  * @Author: ZengJun
  * @Date: 2020-10-25 13:17:15
- * @LastEditTime: 2020-11-29 17:52:55
+ * @LastEditTime: 2020-11-29 21:15:49
  * @LastEditors: ZengJun
  * @Description: 注册页面逻辑
  * @FilePath: \syzj-ng\src\app\pages\passport\signup\signup.page.ts
  */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { IonSlides } from '@ionic/angular';
+import { AlertController, IonSlides, ToastController } from '@ionic/angular';
 import { Signup } from './signup';
 import { AuthenticationCodeService } from './authentication-code.service'
 import { PassportService } from '../passport.service'
@@ -41,7 +41,11 @@ export class SignupPage implements OnInit {
     outTime: false,
     fail: false// 验证失败
   };
-  constructor(private authenticationCodeService: AuthenticationCodeService, private router: Router, private passportService:PassportService) { }
+  constructor(
+    private authenticationCodeService: AuthenticationCodeService,
+    private router: Router,
+    private passportService:PassportService,
+    private alertController:AlertController) { }
 
   ngOnInit() {
     this.signup = {
@@ -111,10 +115,16 @@ export class SignupPage implements OnInit {
   /**
    * 发送短信，暂时只有生成验证码功能
    */
-  onSendSMS() {
+  async onSendSMS() {
     // this.authenticationCodeService.createCode(4);
     let code = this.authenticationCodeService.createCode(4);
     this.verifyCode.errorTip = '';
+    const alert = await this.alertController.create({
+      header:'方便测试用',
+      message:"验证码="+code
+    });
+    alert.present();
+    
     console.log("验证码="+code);
     this.verifyCode.disable = false;
     this.settime();

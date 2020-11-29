@@ -2,7 +2,7 @@
  * @Author: ZengJun
  * @Date: 2020-11-15 15:38:26
  * @LastEditors: ZengJun
- * @LastEditTime: 2020-11-29 18:00:50
+ * @LastEditTime: 2020-11-29 23:40:21
  * @Description: 
  */
 import { Injectable } from '@angular/core';
@@ -31,7 +31,7 @@ export class ProductService {
   }
 
   async getList(index:number,size:number):Promise<AjaxResult>{
-    console.log('getList');
+    // console.log('getList');
     if (index < 0) {
       // 实际开发中应抛出异常类对象
       throw new Error('分页的索引应大于等于零');
@@ -40,20 +40,38 @@ export class ProductService {
       // 实际开发中应抛出异常类对象
       throw new Error('每页显示的记录数应大于零');
     }
-    const products:any[] = this.localStorageService.get("Product",'');
+    const products:any[] = this.localStorageService.get("Product",[]);
+    // console.log(products);
     const list = products.slice(index*size,(index+1)*size);
     const data = {
       total:products.length,
       list:list
     }
     
-    return new AjaxResult(false,
+    return new AjaxResult(true,
       data);
   }
-
-  // getListByCategoryId(index: number, size: number, categoryId: number): Promise<AjaxResult> {
-  //   return ;
-  // }
+  /**
+   * 根据类别编号获得商品数据。
+   * @param index 
+   * @param size 
+   * @param categoryId 类别id
+   */
+  async getListByCategoryId(index: number, size: number, categoryId: number): Promise<AjaxResult> {
+    const productlist = this.localStorageService.get('product', []);
+    let tmp = [];
+    for(const p of productlist){
+      if(p.id = index){
+        tmp.push(p);
+      }
+    }
+    return {
+      data: tmp,
+      success: true,
+      error: null,
+      unAuthorizedRequest: false,
+    };
+  }
 
   /**
    * 根据条件查找商品列表
@@ -63,7 +81,6 @@ export class ProductService {
    * @returns {Promise<AjaxResult>}
    */
   async getListByCondition(index: number, size: 10, input: any): Promise<AjaxResult> {
-    console.log('getListByCondition');
     const productlist = this.localStorageService.get('product', []);
     let tmp = [];
     for (const p of productlist) {

@@ -64,8 +64,8 @@ export class CategoryService {
   /**
    *
    *通过名字查找
-   * @param {string} name
-   * @returns {number}
+   * @param {string} name 种类名
+   * @returns {number} 种类下标
    * @memberof CategoryService
    */
   findCategoryIndexByName(name: string): number {
@@ -77,7 +77,10 @@ export class CategoryService {
     }
     return -1;
   }
-
+  /**
+   * 通过ID查找
+   * @param {number} id 种类ID 
+   */
   findCategoryIndexById(id: number): number {
     const cg = this.all();
     for (let i = 0; i < cg.length; i++) {
@@ -196,7 +199,7 @@ export class CategoryService {
    */
   all(): Category[] {
     return this.localStorageService.get('Category', CATEGORIES);
-  }
+  } 
 
   /**
    * 返回可观察者
@@ -210,7 +213,6 @@ export class CategoryService {
    * 向订阅者发送通知，传送数据 
    */
   setActiveCategory(category: ActiveCategory) {
-    console.log(category);
     this.categorySubject.next(category);
   }
 
