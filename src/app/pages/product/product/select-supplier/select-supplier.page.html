@@ -1,0 +1,38 @@
+<!--
+ * @Author: ZengJun
+ * @Date: 2020-11-21 23:11:44
+ * @LastEditors: ZengJun
+ * @LastEditTime: 2020-11-21 23:14:40
+ * @Description: 
+-->
+
+<ion-header>
+  <ion-toolbar color="base">
+    <ion-title>
+           选择供应商
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-text color="base" *ngIf="isIos">取消</ion-text>
+        <ion-icon name="close" *ngIf="!isIos"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form>
+    <ion-list>
+      <ion-item>
+        <ion-text>现有供应商如下：</ion-text>
+      </ion-item>
+      <ion-item *ngFor="let s of suppliers" (click)="onClick(s)"
+                [ngClass]="{'item-active': s.name == activeSupplier.name}">
+        <ion-label>{{s.name}}</ion-label>
+      </ion-item>
+    </ion-list>
+    <div padding-horizontal>
+      <ion-button expand="block" color="primary" (click)="onSave()">确定</ion-button>
+    </div>
+  </form>
+</ion-content>

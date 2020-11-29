@@ -2,7 +2,7 @@
  * @Author: ZengJun
  * @Date: 2020-11-01 16:16:43
  * @LastEditors: ZengJun
- * @LastEditTime: 2020-11-29 18:55:29
+ * @LastEditTime: 2020-11-29 20:02:49
  * @Description: 
  */
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
@@ -20,13 +20,13 @@ export class HomePage implements OnInit {
   private sales: Array<{ title: string, content: string, previous: number, current: number }>;
   private shortcuts = [
     [
-      {'href': "/product-add", 'name': 'add_sales', 'text': '新增商品', 'disable': false},
+      {'href': "/product/add", 'name': 'add_sales', 'text': '新增商品', 'disable': false},
       {'href': '', 'name': 'add_user', 'text': '新增会员', 'disable': false},
       {'href': '', 'name': 'sales_account', 'text': '收银记账', 'disable': false},
       {'href': '', 'name': 'a_note', 'text': '支出管理', 'disable': false}
     ],
     [
-      {'href': "/product-list", 'name': 'sales_management', 'text': '商品管理', 'disable': false},
+      {'href': "/product/list", 'name': 'sales_management', 'text': '商品管理', 'disable': false},
       {'href': '', 'name': 'user_management', 'text': '会员管理', 'disable': false},
       {'href': '', 'name': 'shop_management', 'text': '查询销售', 'disable': false},
       {'href': '', 'name': 'analysis', 'text': '智能分析', 'disable': false}

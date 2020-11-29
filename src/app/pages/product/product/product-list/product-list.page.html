@@ -1,0 +1,54 @@
+<!--
+ * @Author: ZengJun
+ * @Date: 2020-11-22 14:31:28
+ * @LastEditors: ZengJun
+ * @LastEditTime: 2020-11-29 18:38:29
+ * @Description: 
+-->
+<ion-header>
+  <ion-toolbar non-border color="base">
+    <ion-buttons slot="start">
+      <ion-button (click)="onBack()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+        <ion-label>返回</ion-label> 
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>商品列表</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button clear class="invisibleButton">
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content
+            pullingText="下拉可以刷新"
+            refreshingSpinner="circles"
+            refreshingText="正在加载...">
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  <ion-toolbar color="light">
+    <ion-searchbar placeholder="请输入商品名称、拼音、数字"
+                   [(ngModel)]="queryTerm"
+                   (ionInput)="onInput($event)" >
+    </ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" color="syzj" size="small">商品盘点</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  
+  
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="onInfinite($event)">
+    <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="加载更多商品数据...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

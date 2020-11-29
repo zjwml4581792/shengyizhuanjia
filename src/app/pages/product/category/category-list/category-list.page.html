@@ -1,0 +1,68 @@
+<!--
+ * @Author: ZengJun
+ * @Date: 2020-11-08 15:12:09
+ * @LastEditors: ZengJun
+ * @LastEditTime: 2020-11-21 23:39:35
+ * @Description: 
+-->
+<ion-header>
+  <ion-toolbar non-border color="base">
+    <ion-buttons slot="start">
+      <ion-back-button text="返回"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>商品分类</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="light" (click)="onAddCategory()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-no-padding ion-align-items-stretch">
+
+      <ion-col size="5" class="ion-no-padding" left>
+        <ion-list lines="full" color="light">
+          <ion-item color="light">大分类</ion-item>
+          <ion-item *ngFor="let c of categories" [color]="getItemColor(c.id)" (click)="onSelectCategory(c.id)" 
+                    [ngClass]="{'item-active': c.id===activeCategory.id}">
+            {{c.name}}
+          </ion-item>
+        </ion-list>
+      </ion-col>
+      
+      <ion-col size="7" class="ion-no-padding">
+        <ion-list lines="none" no-margin >
+          <ion-item lines="full">小分类</ion-item>
+          <ion-item detail lines="full" (click)="onSelectSubCategory(activeCategory)">无小分类进入大分类</ion-item>
+
+          <ion-item detail *ngFor="let ac of subCategories" lines="full" (click)="onSelectSubCategory(ac)">
+            {{ac.name}}
+          </ion-item>
+
+          <ion-item detail="false" (click)="onAddSubCategory()">
+            <ion-icon slot="start" name='add-circle' color="base"></ion-icon>
+            <ion-label color="base">新增小分类</ion-label>
+          </ion-item>
+        </ion-list>
+
+        <ion-list class="list-footer" lines="none" no-margin >
+          <ion-item lines="none" class="no-margin">
+            <ion-text *ngIf="subCategories_num === 0" lines="none">目前没有小分类</ion-text>
+            <ion-text *ngIf="subCategories_num !== 0 " lines="none">
+              共有{{subCategories_num}}种商品分类
+            </ion-text>
+            
+            <ion-button color="light" slot="end" (click)="onPresentActionSheet()">
+              <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
