@@ -1,0 +1,37 @@
+<!--
+ * @Author: ZengJun
+ * @Date: 2020-11-08 13:24:50
+ * @LastEditors: ZengJun
+ * @LastEditTime: 2020-11-13 00:02:59
+ * @Description: 
+-->
+<ion-header>
+  <ion-toolbar non-border  color="base">
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+        <ion-label>取消</ion-label>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>{{title}}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button clear class="invisibleButton">
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form>
+    <ion-list>
+      <ion-item>
+        <ion-input name="{{property}}" type="text" [(ngModel)]="value" required placeholder="{{title}}"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div class="ion-padding-horizontal">
+      <ion-button class="saveBtn" expand="block" color="base" (click)="onSave()">保存</ion-button>
+    </div>
+  </form>
+</ion-content>

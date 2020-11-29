@@ -2,7 +2,7 @@
  * @Author: ZengJun
  * @DateTime: 2020-10-31 18:56:49
  * @LastEditors: ZengJun
- * @LastEditTime: 2020-10-31 18:57:15
+ * @LastEditTime: 2020-11-13 18:20:43
  * @Description: 
  */
 import { Injectable } from '@angular/core';
@@ -12,6 +12,12 @@ import { Injectable } from '@angular/core';
 })
 export class LocalStorageService {
   private storage: any = window.localStorage;
+  public LOGIN_TIME: string = 'loginTime';
+  public OUT_TIME: string = 'outTime';
+  public USER: string = 'user';
+  public TUSER:string = 'TUser';
+  public TLOGINACCOUNT = 'TLoginAccount';
+  
   constructor() { }
   /**
    * 获取本地存储

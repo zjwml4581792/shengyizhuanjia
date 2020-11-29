@@ -28,3 +28,20 @@ p{
     --ionicon-stroke-width: 16px;
     color: #EC6941;
 }
+
+.btn-last-next{
+    margin-top: 10px;
+    .btn-left{
+        margin-left: 10%;
+        float:left;
+        width:30%;
+    }
+    .btn-center{
+        width:20%;
+    }
+    .btn-right{
+        margin-right: 10%;
+        float:right;
+        width:30%;
+    }
+}

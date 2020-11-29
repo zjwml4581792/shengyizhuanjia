@@ -2,13 +2,12 @@
  * @Author: ZengJun
  * @DateTime: 2020-10-31 18:50:42
  * @LastEditors: ZengJun
- * @LastEditTime: 2020-10-31 22:01:52
+ * @LastEditTime: 2020-11-29 19:27:48
  * @Description: 
  */
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { StartAppGuard } from './core/start-app.guard';
-
 const routes: Routes = [
   {
     path: '',
@@ -27,6 +26,18 @@ const routes: Routes = [
   {
     path:'passport',
     loadChildren:() => import('./pages/passport/passport.module').then(m => m.PassportModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'setting',
+    loadChildren: () => import('./pages/setting/setting.module').then( m => m.SettingPageModule)
+  },
+  {
+    path: 'product',
+    loadChildren: () => import('./pages/product/product.module').then( m => m.ProductModule)
   }
 ];
 

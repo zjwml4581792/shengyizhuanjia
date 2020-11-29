@@ -1,28 +1,47 @@
+<!--
+ * @Author: ZengJun
+ * @Date: 2020-10-13 01:40:31
+ * @LastEditors: ZengJun
+ * @LastEditTime: 2020-11-29 15:58:17
+ * @Description: 
+-->
 <ion-app>
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi@ionicframework.com</ion-note>
+          <ion-item>
+            <ion-label>
+              <ion-list-header>{{userInfo?.shopName}}</ion-list-header>
+              <ion-note>{{userInfo?.phone}}</ion-note>
+            </ion-label>
+            <ion-badge slot="end" color="base">高级版</ion-badge>
+          </ion-item>
+
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
+            <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none"
+              detail="false" [class.selected]="selectedIndex == i">
               <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
 
-        <ion-list id="labels-list">
+        <!-- <ion-list id="labels-list">
           <ion-list-header>Labels</ion-list-header>
 
           <ion-item *ngFor="let label of labels" lines="none">
             <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
             <ion-label>{{ label }}</ion-label>
           </ion-item>
-        </ion-list>
+        </ion-list> -->
       </ion-content>
+      <ion-menu-toggle auto-hide="false">
+        <ion-button color="base" fill="clear" (click)="onSetting()">
+          <ion-icon slot="start" name='settings'></ion-icon>设置
+        </ion-button>
+      </ion-menu-toggle>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>

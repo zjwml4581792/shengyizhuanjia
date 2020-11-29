@@ -1,0 +1,63 @@
+<!--
+ * @Author: ZengJun
+ * @Date: 2020-11-08 13:24:16
+ * @LastEditors: ZengJun
+ * @LastEditTime: 2020-11-13 18:39:27
+ * @Description: 
+-->
+<ion-header>
+  <ion-toolbar non-border  color="base">
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+        <ion-label>返回</ion-label>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>店铺信息</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button clear class="invisibleButton">
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list inset="true">
+    <ion-item detail [routerLink]="['/setting/shop/edit', '店铺名称', 'shopName']">
+      <ion-label>店铺名称</ion-label>
+      {{shop.shopName }}
+    </ion-item>
+    <ion-item detail [routerLink]="['/setting/shop/edit', '店铺简称', 'shortName']">
+      <ion-label>店铺简称</ion-label>
+      {{shop.shortName}}
+    </ion-item>
+    <ion-item>
+      <ion-label>注册时间</ion-label>
+      {{signup}}
+    </ion-item>
+    <ion-item>
+      <ion-label>手机号码</ion-label>
+      {{shop.phone}}
+    </ion-item>
+  </ion-list>
+
+  <ion-list inset="true">
+    <ion-item>
+      <ion-label>电子邮箱</ion-label>
+      {{shop.email}}
+    </ion-item>
+    <ion-item detail [routerLink]="['/setting/shop/edit', '店主姓名', 'shopKeeperName']">
+      <ion-label>店主姓名</ion-label>
+      {{shop.shopKeeperName}}
+    </ion-item>
+    <ion-item detail [routerLink]="['/setting/shop/edit', '店铺电话', 'shopTel']">
+      <ion-label>店铺电话</ion-label>
+      {{shop.shopTel}}
+    </ion-item>
+    <ion-item detail >
+      <ion-label>行业类型</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

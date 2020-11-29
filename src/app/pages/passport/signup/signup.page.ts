@@ -1,7 +1,7 @@
 /*
  * @Author: ZengJun
  * @Date: 2020-10-25 13:17:15
- * @LastEditTime: 2020-10-31 22:15:25
+ * @LastEditTime: 2020-11-29 17:52:55
  * @LastEditors: ZengJun
  * @Description: 注册页面逻辑
  * @FilePath: \syzj-ng\src\app\pages\passport\signup\signup.page.ts
@@ -33,10 +33,12 @@ export class SignupPage implements OnInit {
   // 验证码倒计时
   verifyCode: any = {
     verifyCodeTips: '获取验证码',
+    errorTip:'',
     code: '',
     codeLength: 4,
     countdown: 60,
     disable: true,
+    outTime: false,
     fail: false// 验证失败
   };
   constructor(private authenticationCodeService: AuthenticationCodeService, private router: Router, private passportService:PassportService) { }
@@ -98,7 +100,7 @@ export class SignupPage implements OnInit {
   onPhoneSubmit(form: NgForm) {
     this.submited = true;
     if (form.valid) {
-      if(this.passportService.isUniquePhone(this.signup.phone)){
+      if(this.passportService.isUniquePhone(this.signup.phone).success){
         this.isRepetitivePhone = false;
         this.onNext();
       }else{
@@ -112,6 +114,7 @@ export class SignupPage implements OnInit {
   onSendSMS() {
     // this.authenticationCodeService.createCode(4);
     let code = this.authenticationCodeService.createCode(4);
+    this.verifyCode.errorTip = '';
     console.log("验证码="+code);
     this.verifyCode.disable = false;
     this.settime();
@@ -121,7 +124,14 @@ export class SignupPage implements OnInit {
    * @param code 输入的验证码
    */
   isCorrectCode(code: string) {
-    return this.authenticationCodeService.validate(code)
+    return this.authenticationCodeService.validate(code);
+  }
+  /**
+   * 判断验证码是否过期
+   * @param code 输入的验证码
+   */
+  isOutTime() {
+    return this.authenticationCodeService.outTime();
   }
   /**
    * 验证验证码
@@ -130,11 +140,12 @@ export class SignupPage implements OnInit {
   onValidateCode(form: NgForm) {
     // console.log(form);
     if (form.valid) {
-      if (this.isCorrectCode(form.value.checkCode)) {
+      if (this.isCorrectCode(form.value.checkCode).success) {
         this.verifyCode.fail = false;
         this.onNext();
       } else {
         this.verifyCode.fail = true;
+        this.verifyCode.errorTip = this.isCorrectCode(form.value.checkCode).error.message;
       }
     }
   }
@@ -168,6 +179,6 @@ export class SignupPage implements OnInit {
   }
 
   onLogin(){
-    
+    this.router.navigateByUrl('/passport/login');
   }
 }

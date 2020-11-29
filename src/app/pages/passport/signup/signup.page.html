@@ -1,10 +1,10 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
-    <!-- <ion-title>signup</ion-title> -->
+    <ion-title>signup</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
-<ion-content>
+<ion-content class="ion-no-padding">
   <div class="ion-text-center">
     <img class="logo" src="./assets/img/logo.png" alt="">
   </div>
@@ -44,11 +44,11 @@
   <ion-slides #signupSlides (ionSlidesDidLoad)="onSlidesDidLoad($event)" (ionSlideDidChange)="onSlidesDidChange($event)">
     <ion-slide>
       <form #phoneForm="ngForm" (ngSubmit)="onPhoneSubmit(phoneForm)">
-        <ion-list>
+        <ion-list class="ion-no-margin ion-no-padding">
 
           <ion-item>
-            <ion-icon name="phone-portrait-outline" class="phone-icon" ></ion-icon>
-            <ion-input name="phone" type="number" placeholder="请输入您的手机号码" required
+            <ion-icon name="phone-portrait-outline" class="phone-icon" position="fixed"></ion-icon>
+            <ion-input name="phone" type="number" placeholder="请输入您的手机号码" required maxlength="11"
               pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$" [(ngModel)]="signup.phone"
               #phone="ngModel">
             </ion-input>
@@ -63,10 +63,12 @@
             <p >该手机号已被注册</p>
           </ion-text>
         </ion-list>
-        <div class="ion-padding-horizontal">
-          <ion-button type="submit" expand="full" color="base" [disabled]="phoneForm.invalid">下一步
+        <ion-buttons class="btn-last-next">
+          <ion-button class="btn-left" type="button" expand="block" color="base" fill="outline" (click)="onLogin()">返回</ion-button>
+          <div class="btn-center"></div>
+          <ion-button class="btn-right" type="submit" fill="solid" expand="block" color="base" [disabled]="phoneForm.invalid">下一步
           </ion-button>
-        </div>
+        </ion-buttons>
       </form>
     </ion-slide>
 
@@ -74,17 +76,29 @@
       <form #codeForm="ngForm" (ngSubmit)="onValidateCode(codeForm)">
         <ion-list>
           <ion-item>
-            <ion-input name="checkCode"slot="start" maxlength="4" required placeholder="请输入验证码" [(ngModel)]="inputCode" #checkCode="ngModel"></ion-input>
+            <ion-input name="checkCode" slot="start" maxlength="4" required placeholder="请输入验证码" [(ngModel)]="inputCode" #checkCode="ngModel" ></ion-input>
             <ion-button color="assist" expand="block" slot="end" [disabled]="!verifyCode.disable" (click)="onSendSMS()" class="full-width">{{verifyCode.verifyCodeTips}}</ion-button>
           </ion-item>
 
-          <ion-text class="ion-text-left" color="danger" *ngIf="verifyCode.fail && checkCode.touched">
-            <p>验证码错误</p>
+          <ion-text class="ion-text-left" color="danger" *ngIf="checkCode.invalid && checkCode.touched">
+            <p [hidden]="!checkCode.errors?.required">请输入验证码</p>
           </ion-text>
+
+          <ion-text class="ion-text-left" color="danger" *ngIf="verifyCode.fail && checkCode.touched">
+            <p [hidden]="checkCode.errors?.required">{{verifyCode.errorTip}}</p>
+          </ion-text>
+
         </ion-list>
-        <div class="ion-padding-horizontal">
-          <ion-button type="submit" expand="full" color="base" [disabled]="codeForm.invalid">下一步</ion-button>
-        </div>
+        <ion-buttons class="btn-last-next">
+          <ion-button class="btn-left" type="button" expand="block" color="base" fill="outline" (click)="onPrevious()">上一步</ion-button>
+          <div class="btn-center"></div>
+          <ion-button class="btn-right" type="submit" expand="block" color="base" fill="solid" [disabled]="codeForm.invalid">下一步</ion-button>
+        </ion-buttons>
+        <!-- <div>
+          <ion-button type="button" expand="block" color="base">上一步</ion-button>
+          <ion-button type="submit" expand="block" color="base" [disabled]="codeForm.invalid">下一步</ion-button>
+        </div> -->
+        
       </form>
     </ion-slide>
 
@@ -151,15 +165,18 @@
           <ion-text class="ion-text-left" color="danger" *ngIf="confirmPassword.invalid && confirmPassword.touched">
             <p [hidden]="!confirmPassword.errors?.required">请再次输入密码</p>
           </ion-text>
-          <ion-text class="ion-text-left" color="danger" *ngIf="confirmPassword.dirty && !passwordIsSame">
+          <!-- <ion-text class="ion-text-left" color="danger" *ngIf="confirmPassword.dirty && !passwordIsSame">
             <p>两次输入密码不相同</p>
-          </ion-text>
+          </ion-text> -->
 
         </ion-list>
-        <div class="ion-padding-horizontal">
-          <ion-button type="submit" expand="full" color="base" [disabled]="userForm.invalid" (click)="onRegister()">注册
+
+        <ion-buttons class="btn-last-next">
+          <ion-button class="btn-left" type="button" expand="block" color="base" fill="outline" (click)="onPrevious()">上一步</ion-button>
+          <div class="btn-center"></div>
+          <ion-button class="btn-right" type="submit" expand="block" color="base" [disabled]="userForm.invalid" fill="solid" (click)="onRegister()">注　册
           </ion-button>
-        </div>
+        </ion-buttons>
       </form>
     </ion-slide>
 
