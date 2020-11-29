@@ -2,7 +2,7 @@
  * @Author: ZengJun
  * @Date: 2020-11-22 14:31:28
  * @LastEditors: ZengJun
- * @LastEditTime: 2020-11-30 00:15:20
+ * @LastEditTime: 2020-11-30 00:35:53
  * @Description: 
 -->
 <ion-header>
@@ -17,23 +17,13 @@
     <ion-title>商品列表</ion-title>
 
     <ion-buttons slot="end">
-      <ion-button clear class="invisibleButton">
+      <ion-button clear (click)="onCategory()">分类
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-toolbar>
-    <ion-searchbar placeholder="请输入商品名称、拼音、数字"
-                   [(ngModel)]="queryTerm"
-                   (ionInput)="onInput($event)">
-    </ion-searchbar>
-    <ion-buttons slot="end">
-      <ion-button fill="outline" color="base" size="small">商品盘点</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-  
   <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
     <ion-refresher-content
             pullingText="下拉可以刷新"
@@ -41,8 +31,7 @@
             refreshingText="正在加载...">
     </ion-refresher-content>
   </ion-refresher>
-  
-  
+
   <div class="ion-text-center" *ngIf="noData()">
     <img class="logo" src="./assets/img/commodity_no.png" alt="" >
     <ion-label color="medium">您还没有任何商品信息</ion-label>
@@ -53,6 +42,39 @@
       <ion-button class="btn-add-goods" expand="block" color="base" fill="solid" (click)="onClick()">添加商品</ion-button>
     </div>
   </div>
+  
+  <ion-grid *ngIf="total">
+    <ion-toolbar>
+      <ion-searchbar placeholder="请输入商品名称、拼音、数字"
+                     [(ngModel)]="queryTerm"
+                     (ionInput)="onInput($event)">
+      </ion-searchbar>
+      <ion-buttons slot="end">
+        <ion-button fill="outline" color="base" size="small">商品盘点</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+
+
+    <ion-item>
+      <ion-text>总正库存{{total}}件，总成本{{price | number:'1.2-2'}}元</ion-text>
+    </ion-item>
+    <ion-item *ngFor="let p of products" detail>
+      <ion-col size="2">
+        <img src="./assets/img/c_goodspicture.png">
+      </ion-col>
+      <ion-col size="9">
+        <ion-row><ion-text>{{p.name}}</ion-text></ion-row>
+        <ion-row><ion-text color="primary">￥{{p.price}}</ion-text></ion-row>
+        <ion-row>
+          <ion-text color="medium">条码：{{p.barcode}}&emsp;</ion-text>
+          <ion-text color="medium">库存：{{p.inventory}} 件</ion-text>
+        </ion-row>
+      </ion-col>
+      <ion-col size="1">
+        <ion-icon name="share-social-outline"></ion-icon>
+      </ion-col>
+    </ion-item>
+  </ion-grid>
   
   <ion-infinite-scroll threshold="100px" (ionInfinite)="onInfinite($event)">
     <ion-infinite-scroll-content

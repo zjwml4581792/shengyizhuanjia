@@ -2,7 +2,7 @@
  * @Author: ZengJun
  * @Date: 2020-11-22 14:31:28
  * @LastEditors: ZengJun
- * @LastEditTime: 2020-11-29 23:27:41
+ * @LastEditTime: 2020-11-30 00:38:18
  * @Description: 
  */
 import { TypeScriptEmitter } from '@angular/compiler';
@@ -19,22 +19,23 @@ import { ProductService } from '../product.service';
   styleUrls: ['./product-list.page.scss'],
 })
 export class ProductListPage implements OnInit {
-  currentIndex:number = 0;//当前页码
-  total:number = -1;//总记录数
-  products:any[] = [];//
-  queryTerm:string ='';//查询条件
-  categoryId:number = -1;//商品种类id
+  currentIndex: number = 0;//当前页码
+  total: number = -1;//总记录数
+  products: any[] = [];//
+  price: number;//总价格
+  queryTerm: string = '';//查询条件
+  categoryId: number = -1;//商品种类id
 
   constructor(
-    private loading:LoadingController,
-    private productService:ProductService,
-    private navController:NavController,
-    private router:Router) {
+    private loading: LoadingController,
+    private productService: ProductService,
+    private navController: NavController,
+    private router: Router) {
   }
 
   async ngOnInit() {
 
-    this.currentIndex=0;
+    this.currentIndex = 0;
     // 自行添加初始化代码
     const loading = await this.loading.create({
       message: '正在加载数据，请稍候...',
@@ -42,26 +43,26 @@ export class ProductListPage implements OnInit {
     });
     loading.present();
 
-    try{
+    try {
       const result: AjaxResult = await this.productService.getList(this.currentIndex, 8);
-      
-      const subscription:Subscription = timer(1000).subscribe(()=>{
+
+      const subscription: Subscription = timer(1000).subscribe(() => {
         loading.dismiss();
         this.total = result.data.total;
         this.products = result.data.list;
       })
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
-    
-    
+
+
 
     try {
 
-      timer(1000).subscribe(()=>{
-        
+      timer(1000).subscribe(() => {
+
       })
-      
+
       // 其他代码省略  
     } catch (error) {
       console.log(error);
@@ -69,14 +70,14 @@ export class ProductListPage implements OnInit {
     }
   }
 
-  noData():boolean{
+  noData(): boolean {
     return this.total === 0;
   }
   /**
    * 下拉刷新
    * @param event 
    */
-  async onRefresh(event){
+  async onRefresh(event) {
     this.currentIndex = 1;
     const refresh = event.target;
     try {
@@ -92,32 +93,33 @@ export class ProductListPage implements OnInit {
    * 上拉加载
    * @param event 
    */
-  async onInfinite(event){
+  async onInfinite(event) {
     this.currentIndex++;
-    if(this.currentIndex>=Math.ceil(this.total/8)){
+    if (this.currentIndex >= Math.ceil(this.total / 8)) {
       event.target.complete();
     }
-    try{
-      const result:AjaxResult = await this.productService.getList(this.currentIndex,8);
-      const timerSubscription:Subscription = timer(100).subscribe(()=>{
+    try {
+      const result: AjaxResult = await this.productService.getList(this.currentIndex, 8);
+      const timerSubscription: Subscription = timer(100).subscribe(() => {
         event.target.complete();
         this.total = result.data.total;
         this.products = this.products.concat(result.data.list);
       })
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
   }
 
-  async onInput(event){
+  async onInput(event) {
     this.currentIndex = 1;
     const condition = event.target.value;
     try {
       if (condition == '') {
         this.total = 0;
-    } else {
+      } else {
         this.categoryId = -1;
         this.currentIndex = 1;
+        this.price = 0;
         const ajaxResult: AjaxResult = await this.productService.getListByCondition(this.currentIndex, 10, condition);
         this.products = ajaxResult.data;
       }
@@ -126,11 +128,15 @@ export class ProductListPage implements OnInit {
     }
   }
 
-  onClick(){
+  onClick() {
     this.router.navigateByUrl('/product/add');
   }
 
-  onBack(){
+  onCategory() {
+    this.router.navigateByUrl('/product/categoryList');
+  }
+
+  onBack() {
     this.navController.navigateBack('/home');
   }
 }

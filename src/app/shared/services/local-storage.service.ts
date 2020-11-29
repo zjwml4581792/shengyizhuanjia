@@ -2,7 +2,7 @@
  * @Author: ZengJun
  * @DateTime: 2020-10-31 18:56:49
  * @LastEditors: ZengJun
- * @LastEditTime: 2020-11-13 18:20:43
+ * @LastEditTime: 2020-11-30 00:27:44
  * @Description: 
  */
 import { Injectable } from '@angular/core';
@@ -17,6 +17,7 @@ export class LocalStorageService {
   public USER: string = 'user';
   public TUSER:string = 'TUser';
   public TLOGINACCOUNT = 'TLoginAccount';
+  public PRODUCT:string = 'product';
   
   constructor() { }
   /**

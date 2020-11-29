@@ -2,7 +2,7 @@
  * @Author: ZengJun
  * @Date: 2020-11-15 13:35:52
  * @LastEditors: ZengJun
- * @LastEditTime: 2020-11-21 02:03:28
+ * @LastEditTime: 2020-11-30 00:24:41
  * @Description: 
  */
 import { Component, OnInit } from '@angular/core';
@@ -24,7 +24,12 @@ export class CategoryAddPage implements OnInit {
   id:number;
   subnum:number;
 
-  constructor(private navController:NavController,private activatedRoute:ActivatedRoute, private categoryService:CategoryService, private toastController:ToastController,private router:Router) { 
+  constructor(
+    private navController:NavController,
+    private activatedRoute:ActivatedRoute,
+    private categoryService:CategoryService,
+    private toastController:ToastController,
+    private router:Router) { 
     this.activatedRoute.queryParams.subscribe(queryParams => {
       console.log(queryParams);
       this.title1 = queryParams.title1;

@@ -2,7 +2,7 @@
  * @Author: ZengJun
  * @Date: 2020-11-15 15:38:26
  * @LastEditors: ZengJun
- * @LastEditTime: 2020-11-29 23:40:21
+ * @LastEditTime: 2020-11-30 00:28:28
  * @Description: 
  */
 import { Injectable } from '@angular/core';
@@ -18,11 +18,10 @@ export class ProductService {
   constructor(private localStorageService:LocalStorageService) { }
 
   async insert(input: Product): Promise<AjaxResult> {
-    console.log('insert');
     input.id = UUID.UUID(); // 自动生成ID
-    const res = this.localStorageService.get('product', []);
+    const res = this.localStorageService.get(this.localStorageService.PRODUCT, []);
     res.push(input);
-    this.localStorageService.set('product', res);
+    this.localStorageService.set(this.localStorageService.PRODUCT, res);
     return {
       data: res,
       success: true,
@@ -40,7 +39,7 @@ export class ProductService {
       // 实际开发中应抛出异常类对象
       throw new Error('每页显示的记录数应大于零');
     }
-    const products:any[] = this.localStorageService.get("Product",[]);
+    const products:any[] = this.localStorageService.get(this.localStorageService.PRODUCT,[]);
     // console.log(products);
     const list = products.slice(index*size,(index+1)*size);
     const data = {
@@ -58,7 +57,7 @@ export class ProductService {
    * @param categoryId 类别id
    */
   async getListByCategoryId(index: number, size: number, categoryId: number): Promise<AjaxResult> {
-    const productlist = this.localStorageService.get('product', []);
+    const productlist = this.localStorageService.get(this.localStorageService.PRODUCT, []);
     let tmp = [];
     for(const p of productlist){
       if(p.id = index){
@@ -81,7 +80,7 @@ export class ProductService {
    * @returns {Promise<AjaxResult>}
    */
   async getListByCondition(index: number, size: 10, input: any): Promise<AjaxResult> {
-    const productlist = this.localStorageService.get('product', []);
+    const productlist = this.localStorageService.get(this.localStorageService.PRODUCT, []);
     let tmp = [];
     for (const p of productlist) {
       if (p.name == input || p.barcode == input || p.price == input) {
